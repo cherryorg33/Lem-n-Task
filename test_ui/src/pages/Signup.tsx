@@ -1,12 +1,41 @@
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
+import React, { useState } from "react";
+import { config } from "../config";
 
 const SignUp = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Registration logic would go here
-    navigate("/dashboard");
+  const [data, setdata] = useState({
+    email: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const handleChage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setdata({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    try {
+      e.preventDefault();
+      if (data.password !== data.confirmpassword) {
+        toast.error("password not match");
+      }
+      await axios.post(`${config.API_URL}/users/register`, data);
+      toast.success("Register Sucessfully");
+      navigate("/");
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
   };
 
   return (
@@ -63,6 +92,9 @@ const SignUp = () => {
                 </label>
                 <input
                   type="email"
+                  name="email"
+                  value={data.email}
+                  onChange={handleChage}
                   required
                   placeholder="Enter email address"
                   className="w-full bg-white/10 border border-white/30 p-3 rounded-xl text-white placeholder:text-white/40 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all"
@@ -76,6 +108,9 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  value={data.password}
+                  onChange={handleChage}
                   required
                   placeholder="Enter password"
                   className="w-full bg-white/10 border border-white/30 p-3 rounded-xl text-white placeholder:text-white/40 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all"
@@ -89,6 +124,9 @@ const SignUp = () => {
                 </label>
                 <input
                   type="password"
+                  name="confirmpassword"
+                  value={data.confirmpassword}
+                  onChange={handleChage}
                   required
                   placeholder="Confirm your password"
                   className="w-full bg-white/10 border border-white/30 p-3 rounded-xl text-white placeholder:text-white/40 focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-all"
