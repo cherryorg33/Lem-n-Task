@@ -34,7 +34,7 @@ export const createTask = async (req: AuthRequest, res: Response) => {
 export const getTasks = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.user._id;
-    const { page = 1, limit = 10, search = "" } = req.query;
+    const { page = 1, limit = 2, search = "" } = req.query;
 
     const query = {
       user: userId,
@@ -100,14 +100,21 @@ export const updateTask = async (req: AuthRequest, res: Response) => {
 // ---------------- Delete Task ----------------
 export const deleteTask = async (req: AuthRequest, res: Response) => {
   try {
-    const task = await Task.findOneAndUpdate({
-      _id: req.params.id as string,
-      user: req.user._id,
-    });
-    if (!task) return res.status(404).json({ message: "Task not found" });
+    const { id } = req.params;
+
+    console.log("Deleting task:", id);
+
+    const checktask = await Task.findById(id);
+
+    if (!checktask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    await Task.findByIdAndDelete(id);
 
     res.json({ message: "Task deleted successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Server error" });
   }
 };

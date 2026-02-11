@@ -8,6 +8,7 @@ import { errorHandler } from "./middlewares/error.middleware";
 import userRoutes from "./routes/user.routes";
 import taskRoutes from "./routes/task.routes";
 import { IUser } from "./models/user.model";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,6 +18,18 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
+
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true,
+//   })
+// );
+
+// app.options("*", cors());
+
+app.use(cors());
 
 declare global {
   namespace Express {
