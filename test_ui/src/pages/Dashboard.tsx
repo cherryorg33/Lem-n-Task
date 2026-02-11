@@ -61,7 +61,6 @@ const Dashboard = () => {
   const user = JSON.parse(localStorage.getItem("token") as string);
   const token = user.data?.token;
 
-  console.log(token, "getting token");
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -184,7 +183,7 @@ const Dashboard = () => {
 
           {/* Body: Floating Card Rows */}
           <div className="space-y-4">
-            {tasks.map((item: Task, idx) => (
+            {tasks.length > 0 &&  tasks.map((item: Task, idx) => (
               <div
                 key={item._id}
                 className="grid grid-cols-12 items-center bg-white px-8 py-5 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-transparent hover:border-indigo-100 transition-all group"
@@ -240,7 +239,7 @@ const Dashboard = () => {
 
         {/* --- MOBILE VIEW: Cards --- */}
         <div className="md:hidden space-y-4">
-          {tasks.map((item: Task) => (
+          {tasks.length > 0 && tasks.map((item: Task) => (
             <div
               key={item._id}
               className="border rounded-xl p-4 shadow-sm relative"
