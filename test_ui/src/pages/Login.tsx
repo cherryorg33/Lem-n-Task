@@ -19,11 +19,6 @@ const Login = () => {
     });
   };
 
-  const user = JSON.parse(localStorage.getItem("token") as string);
-  const token = user.token;
-
-  console.log(token, "getting token");
-
   const handleSubmit = async (e: React.SubmitEvent) => {
     try {
       e.preventDefault();
