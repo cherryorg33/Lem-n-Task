@@ -23,12 +23,12 @@ jobs:
 
       - name: Install backend dependencies
         run: |
-          cd server
+          cd test_api
           npm install
 
       - name: Build backend
         run: |
-          cd server
+          cd test_api
           npm run build
 
       # -------------------
@@ -41,12 +41,12 @@ jobs:
 
       - name: Install frontend dependencies
         run: |
-          cd client
+          cd test_ui
           npm install
 
       - name: Build frontend
         run: |
-          cd client
+          cd test_ui
           npm run build
 
   deploy:
