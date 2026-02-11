@@ -43,6 +43,12 @@ jobs:
         run: |
           cd test_ui
           npm install
+          
+      # Create _redirects file automatically
+      - name: Create redirects file
+        run: |
+         echo "/*    /index.html   200" > test_ui/public/_redirects
+      
 
       - name: Build frontend
         run: |
